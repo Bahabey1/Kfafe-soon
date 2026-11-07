@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1A0F0A" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Dublin Cafe - Konya'nın en seçkin kahve deneyimi. Premium kahveler, lezzetli sandviçler ve özel tatlılar." />
+  <meta name="keywords" content="Dublin Cafe, Konya kafe, kahve, espresso, latte, hamburger, waffle" />
+  <meta property="og:title" content="Dublin Cafe | Premium Kahve & Lezzet" />
+  <meta property="og:description" content="Konya'nın en seçkin kahve deneyimi için Dublin Cafe'ye bekleriz." />
+  <meta property="og:type" content="restaurant.restaurant" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Dublin Cafe" />
+  <link rel="manifest" href="./manifest.json" />
+  <title>Dublin Cafe | Premium Kahve & Lezzet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --espresso: #1A0F0A;
+      --dark-roast: #2C1810;
+      --medium-roast: #4A2C1A;
+      --caramel: #8B5E3C;
+      --golden: #D4A96A;
+      --cream: #F5EDD6;
+      --off-white: #FDFAF4;
+      --text-dark: #1A0F0A;
+      --text-mid: #5C3D2E;
+      --text-light: #9A7B6A;
+      --glass-bg: rgba(253,250,244,0.08);
+      --glass-border: rgba(212,169,106,0.2);
+    }
+    [data-theme="dark"] {
+      --espresso: #FDFAF4;
+      --dark-roast: #F5EDD6;
+      --medium-roast: #D4A96A;
+      --caramel: #D4A96A;
+      --golden: #D4A96A;
+      --cream: #1A0F0A;
+      --off-white: #110A06;
+      --text-dark: #FDFAF4;
+      --text-mid: #D4A96A;
+      --text-light: #9A7B6A;
+      --glass-bg: rgba(26,15,10,0.4);
+      --glass-border: rgba(212,169,106,0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--caramel); border-radius: 3px; }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--espresso);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loading-screen.hidden { opacity: 0; visibility: hidden; }
+    .loading-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--golden);
+      letter-spacing: 0.1em;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .loading-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(212,169,106,0.6);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .loading-bar-wrap {
+      width: 160px; height: 2px;
+      background: rgba(212,169,106,0.2);
+      border-radius: 2px; margin-top: 2.5rem;
+      overflow: hidden;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+    .loading-bar {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--caramel), var(--golden));
+      border-radius: 2px;
+      animation: loadBar 1.8s 0.5s ease forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Navbar */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      transition: all 0.4s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(26,15,10,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212,169,106,0.15);
+      padding: 0.7rem 2rem;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--golden);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: #fff; font-weight: 300; font-style: italic; }
+    .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-btn {
+      background: none; border: 1px solid rgba(212,169,106,0.4);
+      color: var(--golden); padding: 0.45rem 0.9rem;
+      border-radius: 50px; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .nav-btn:hover { background: rgba(212,169,106,0.1); border-color: var(--golden); }
+    .nav-btn.active { background: var(--golden); color: var(--espresso); border-color: var(--golden); font-weight: 600; }
+
+    /* Hero */
+    #hero {
+      height: 100dvh; min-height: 600px;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1600&h=900&fit=crop&q=85');
+      background-size: cover; background-position: center;
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(26,15,10,0.55) 0%,
+        rgba(26,15,10,0.3) 40%,
+        rgba(26,15,10,0.7) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 1.5rem;
+      max-width: 800px;
+      animation: heroFadeIn 1.2s 1.8s ease both;
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      color: var(--golden);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      color: #fff; line-height: 0.95;
+      font-weight: 800; letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title em { color: var(--golden); font-style: italic; font-weight: 400; }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: rgba(245,237,214,0.85);
+      font-style: italic;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--golden);
+      color: var(--espresso);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+      font-family: 'Inter', sans-serif;
+    }
+    .hero-cta:hover {
+      background: #fff; transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(212,169,106,0.4);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll span {
+      font-size: 0.65rem; color: rgba(212,169,106,0.7);
+      letter-spacing: 0.3em; text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--golden), transparent);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* Section */
+    section { padding: 5rem 1.5rem; }
+    .section-header {
+      text-align: center; margin-bottom: 3rem;
+    }
+    .section-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--caramel);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--text-dark); font-weight: 700;
+      line-height: 1.15;
+    }
+    .section-title em { color: var(--caramel); font-style: italic; }
+    .section-line {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--golden), transparent);
+      margin: 1.25rem auto 0;
+    }
+
+    /* Search */
+    #search-section { padding: 2rem 1.5rem 0; }
+    .search-wrap {
+      max-width: 520px; margin: 0 auto;
+      position: relative;
+    }
+    .search-icon {
+      position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%);
+      color: var(--caramel); font-size: 1.1rem; pointer-events: none;
+    }
+    #search-input {
+      width: 100%; padding: 1rem 1rem 1rem 3.2rem;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 50px;
+      background: rgba(245,237,214,0.6);
+      backdrop-filter: blur(10px);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; color: var(--text-dark);
+      outline: none; transition: all 0.2s;
+    }
+    [data-theme="dark"] #search-input { background: rgba(44,24,16,0.6); color: var(--golden); }
+    #search-input:focus {
+      border-color: var(--golden);
+      box-shadow: 0 0 0 3px rgba(212,169,106,0.12);
+    }
+    #search-input::placeholder { color: var(--text-light); }
+
+    /* Categories */
+    #categories { padding: 2.5rem 1.5rem; }
+    .cat-scroll {
+      display: flex; gap: 0.75rem;
+      overflow-x: auto; padding-bottom: 0.5rem;
+      scrollbar-width: none; max-width: 1200px; margin: 0 auto;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .cat-scroll::-webkit-scrollbar { display: none; }
+    .cat-pill {
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      cursor: pointer; transition: all 0.25s;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 500;
+      color: var(--text-mid);
+      white-space: nowrap;
+    }
+    .cat-pill:hover { border-color: var(--golden); color: var(--caramel); transform: translateY(-1px); }
+    .cat-pill.active {
+      background: linear-gradient(135deg, var(--caramel), #A0714A);
+      border-color: transparent; color: #fff;
+      box-shadow: 0 4px 20px rgba(139,94,60,0.35);
+    }
+    .cat-pill .emoji { font-size: 1.1rem; }
+
+    /* Menu Grid */
+    #menu-section { padding: 1rem 1.5rem 5rem; }
+    .menu-container { max-width: 1200px; margin: 0 auto; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Product Card */
+    .product-card {
+      background: var(--off-white);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px; overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      position: relative;
+    }
+    [data-theme="dark"] .product-card { background: #1E1109; }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(139,94,60,0.2);
+      border-color: rgba(212,169,106,0.35);
+    }
+    .card-img-wrap {
+      aspect-ratio: 4/3; overflow: hidden; position: relative;
+    }
+    .card-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .card-img { transform: scale(1.06); }
+    .card-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: rgba(26,15,10,0.85);
+      backdrop-filter: blur(8px);
+      color: var(--golden);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.06em;
+      border: 1px solid rgba(212,169,106,0.3);
+    }
+    .card-body { padding: 1.25rem; }
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 600;
+      color: var(--text-dark); margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 0.82rem; color: var(--text-light);
+      line-height: 1.55; margin-bottom: 1rem;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--caramel);
+    }
+    .card-price sup { font-size: 0.7em; vertical-align: super; font-weight: 600; }
+
+    /* No Results */
+    .no-results {
+      text-align: center; padding: 4rem 1rem;
+      grid-column: 1 / -1;
+    }
+    .no-results .icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    .no-results p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--text-light);
+    }
+
+    /* Category Title */
+    .cat-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--text-dark);
+      margin: 2.5rem 0 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    /* Admin Panel */
+    #admin-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(26,15,10,0.85);
+      backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    #admin-overlay.open { display: flex; }
+    .admin-panel {
+      background: var(--off-white);
+      border-radius: 24px; width: 100%; max-width: 700px;
+      max-height: 90dvh; overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      border: 1px solid var(--glass-border);
+    }
+    [data-theme="dark"] .admin-panel { background: #1E1109; }
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .admin-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--text-dark);
+    }
+    .admin-close {
+      background: none; border: 1px solid var(--glass-border);
+      color: var(--text-mid); width: 2.2rem; height: 2.2rem;
+      border-radius: 50%; cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .admin-close:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+    .admin-tabs {
+      display: flex; gap: 0.5rem; margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem;
+    }
+    .admin-tab {
+      padding: 0.5rem 1.1rem; border-radius: 8px;
+      border: none; background: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 500;
+      color: var(--text-light); transition: all 0.2s;
+    }
+    .admin-tab.active {
+      background: linear-gradient(135deg, var(--caramel), #A0714A);
+      color: #fff;
+    }
+
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--text-mid); letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .form-input, .form-select, .form-textarea {
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 10px;
+      background: rgba(245,237,214,0.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; color: var(--text-dark);
+      outline: none; transition: border-color 0.2s;
+    }
+    [data-theme="dark"] .form-input,
+    [data-theme="dark"] .form-select,
+    [data-theme="dark"] .form-textarea { background: rgba(44,24,16,0.5); color: var(--golden); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--golden);
+    }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-check-row {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 10px; cursor: pointer;
+    }
+    .form-check-row input { width: 1rem; height: 1rem; accent-color: var(--caramel); }
+    .btn-submit {
+      width: 100%; padding: 0.95rem;
+      background: linear-gradient(135deg, var(--caramel), #A0714A);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,94,60,0.4); }
+
+    /* Admin List */
+    .admin-product-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-product-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px; background: rgba(245,237,214,0.3);
+      transition: border-color 0.2s;
+    }
+    [data-theme="dark"] .admin-product-item { background: rgba(44,24,16,0.3); }
+    .admin-product-item:hover { border-color: var(--golden); }
+    .admin-item-img {
+      width: 50px; height: 50px; border-radius: 8px;
+      object-fit: cover; flex-shrink: 0;
+    }
+    .admin-item-info { flex: 1; min-width: 0; }
+    .admin-item-name {
+      font-weight: 600; font-size: 0.9rem; color: var(--text-dark);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .admin-item-meta { font-size: 0.78rem; color: var(--text-light); margin-top: 0.1rem; }
+    .admin-item-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; color: var(--caramel); flex-shrink: 0;
+    }
+    .admin-item-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+    .btn-edit, .btn-delete {
+      padding: 0.35rem 0.75rem; border-radius: 8px;
+      border: 1px solid; font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-edit { border-color: var(--golden); color: var(--caramel); background: transparent; }
+    .btn-edit:hover { background: rgba(212,169,106,0.15); }
+    .btn-delete { border-color: #fca5a5; color: #ef4444; background: transparent; }
+    .btn-delete:hover { background: #fee2e2; }
+    .admin-filter-bar {
+      display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .admin-filter-btn {
+      padding: 0.35rem 0.8rem; border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      background: none; cursor: pointer; font-size: 0.8rem;
+      color: var(--text-mid); transition: all 0.2s;
+    }
+    .admin-filter-btn.active {
+      background: var(--caramel); color: #fff; border-color: var(--caramel);
+    }
+    .admin-search {
+      width: 100%; padding: 0.6rem 1rem;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 10px; margin-bottom: 0.75rem;
+      background: rgba(245,237,214,0.5);
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      color: var(--text-dark); outline: none;
+    }
+    [data-theme="dark"] .admin-search { background: rgba(44,24,16,0.5); color: var(--golden); }
+    .admin-search:focus { border-color: var(--golden); }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+      background: var(--espresso); color: var(--golden);
+      padding: 0.85rem 1.5rem; border-radius: 12px;
+      font-size: 0.88rem; font-weight: 500;
+      border: 1px solid rgba(212,169,106,0.3);
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      max-width: 320px;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    [data-theme="dark"] #toast { background: var(--golden); color: var(--espresso); }
+
+    /* Footer */
+    footer {
+      background: var(--espresso);
+      color: rgba(245,237,214,0.7);
+      padding: 4rem 2rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem; margin-bottom: 2.5rem;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--golden);
+      margin-bottom: 0.5rem;
+    }
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; font-style: italic;
+      color: rgba(212,169,106,0.6);
+    }
+    .footer-col h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--golden); font-size: 1rem;
+      margin-bottom: 1rem; letter-spacing: 0.05em;
+    }
+    .footer-col p, .footer-col a {
+      font-size: 0.88rem; line-height: 1.9;
+      color: rgba(245,237,214,0.65); text-decoration: none;
+      display: block; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--golden); }
+    .footer-bottom {
+      border-top: 1px solid rgba(212,169,106,0.1);
+      padding-top: 1.5rem; text-align: center;
+      font-size: 0.78rem; color: rgba(245,237,214,0.3);
+    }
+    .instagram-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--golden) !important; font-weight: 500;
+    }
+
+    /* Animations */
+    .fade-in-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #navbar { padding: 0.8rem 1rem; }
+      #navbar.scrolled { padding: 0.6rem 1rem; }
+      .nav-logo { font-size: 1.25rem; }
+      .hero-content { padding: 1rem; }
+      section { padding: 3.5rem 1rem; }
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+      .card-body { padding: 0.9rem; }
+      .card-name { font-size: 1rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .admin-panel { padding: 1.25rem; border-radius: 16px; }
+      .cat-scroll { justify-content: flex-start; flex-wrap: nowrap; }
+    }
+    @media (max-width: 480px) {
+      .menu-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .hero-cta { padding: 0.85rem 1.8rem; font-size: 0.9rem; }
+    }
+
+    /* Password Gate */
+    #pw-gate {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(26,15,10,0.96);
+      backdrop-filter: blur(16px);
+      display: none; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    #pw-gate.open { display: flex; }
+    .pw-box {
+      background: var(--off-white);
+      border-radius: 24px; width: 100%; max-width: 380px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-border);
+      text-align: center;
+      animation: pwIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    [data-theme="dark"] .pw-box { background: #1E1109; }
+    @keyframes pwIn {
+      from { opacity:0; transform: scale(0.9) translateY(20px); }
+      to   { opacity:1; transform: scale(1) translateY(0); }
+    }
+    .pw-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .pw-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 0.4rem;
+    }
+    .pw-sub {
+      font-size: 0.85rem; color: var(--text-light);
+      margin-bottom: 1.75rem; line-height: 1.5;
+    }
+    .pw-input-wrap { position: relative; margin-bottom: 1rem; }
+    #pw-input {
+      width: 100%; padding: 0.9rem 3rem 0.9rem 1.2rem;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 12px;
+      background: rgba(245,237,214,0.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem; color: var(--text-dark);
+      outline: none; transition: border-color 0.2s;
+      text-align: center; letter-spacing: 0.1em;
+    }
+    [data-theme="dark"] #pw-input { background: rgba(44,24,16,0.5); color: var(--golden); }
+    #pw-input:focus { border-color: var(--golden); box-shadow: 0 0 0 3px rgba(212,169,106,0.12); }
+    #pw-input.error { border-color: #ef4444; animation: shake 0.35s ease; }
+    @keyframes shake {
+      0%,100%{ transform:translateX(0) }
+      20%{ transform:translateX(-6px) }
+      40%{ transform:translateX(6px) }
+      60%{ transform:translateX(-4px) }
+      80%{ transform:translateX(4px) }
+    }
+    .pw-toggle {
+      position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: var(--text-light); font-size: 1rem; padding: 0.25rem;
+    }
+    .pw-toggle:hover { color: var(--caramel); }
+    #pw-error {
+      font-size: 0.8rem; color: #ef4444;
+      margin-bottom: 0.75rem; min-height: 1.2em;
+      transition: opacity 0.2s;
+    }
+    .pw-submit {
+      width: 100%; padding: 0.9rem;
+      background: linear-gradient(135deg, var(--caramel), #A0714A);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 0.75rem;
+    }
+    .pw-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,94,60,0.4); }
+    .pw-cancel {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.82rem; color: var(--text-light);
+      font-family: 'Inter', sans-serif; transition: color 0.2s;
+    }
+    .pw-cancel:hover { color: var(--caramel); }
+
+    /* PWA safe area */
+    @supports (padding: env(safe-area-inset-bottom)) {
+      footer { padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loading-logo">Dublin Cafe</div>
+  <div class="loading-tagline">Premium  Lezzetler</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Dublin <span>Cafe</span></a>
+    <div class="nav-actions">
+      <button class="nav-btn" id="dark-toggle">🌙 Dark</button>
+      <button class="nav-btn active" id="admin-btn">⚙ Yönetim</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Konya'nın Seçkin Adresi</p>
+    <h1 class="hero-title">Dublin<br><em>Cafe</em></h1>
+    <p class="hero-subtitle">Her yudumda bir hikaye,<br>her lezzette bir anı…</p>
+    <a href="#menu-section" class="hero-cta">
+      ☕ Menüyü İncele
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <span>Kaydır</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Search -->
+<div id="search-section">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="search" id="search-input" placeholder="Ürün ara… (Latte, Quesadilla, Wrap, Salep...)" autocomplete="off" />
+  </div>
+</div>
+
+<!-- Categories -->
+<div id="categories">
+  <div class="cat-scroll" id="cat-container"></div>
+</div>
+
+<!-- Menu -->
+<section id="menu-section">
+  <div class="menu-container">
+    <div id="menu-grid" class="menu-grid"></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Dublin Cafe</div>
+      <p class="footer-tagline">"Her yudumda mükemmellik"</p>
+    </div>
+    <div class="footer-col">
+      <h4>📍 Adres</h4>
+      <p>Akabe, Saçlı Kasap Cd. NO: 157 CA, 42050 Karatay/Konya</p>
+      <p style="margin-top:0.5rem"><a href="tel:+905001234567">📞 0541 276 12 05</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>⏰ Çalışma Saatleri</h4>
+      <p>Pazartesi – Cuma: 12:00 – 24:00</p>
+      <p>Cumartesi – Pazar: 12:00 – 24:00</p>
+    </div>
+    <div class="footer-col">
+      <h4>🌐 Sosyal Medya</h4>
+      <a href="https://instagram.com/dublincafe" target="_blank" class="instagram-link">📷 @dublincafe</a>
+      <p style="margin-top:0.5rem;font-size:0.78rem;color:rgba(245,237,214,0.4)">QR menü için bu sayfayı ziyaret edin.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Dublin Cafe. Tüm hakları saklıdır.
+  </div>
+</footer>
+
+<!-- Password Gate -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-icon">🔐</div>
+    <div class="pw-title">Yönetim Paneli</div>
+    <p class="pw-sub">Devam etmek için yönetici şifresini girin.</p>
+    <div class="pw-input-wrap">
+      <input type="password" id="pw-input" placeholder="Şifre" autocomplete="current-password" />
+      <button class="pw-toggle" id="pw-toggle" type="button" title="Göster/Gizle">👁</button>
+    </div>
+    <div id="pw-error"></div>
+    <button class="pw-submit" id="pw-submit">Giriş Yap</button><br>
+    <button class="pw-cancel" id="pw-cancel">İptal</button>
+  </div>
+</div>
+
+<!-- Admin Panel Overlay -->
+<div id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <div class="admin-title">⚙ Yönetim Paneli</div>
+      <button class="admin-close" id="admin-close">✕</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="add">➕ Ürün Ekle</button>
+      <button class="admin-tab" data-tab="list">📋 Ürünleri Yönet</button>
+    </div>
+
+    <!-- Add/Edit Form -->
+    <div id="tab-add">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Ürün Adı *</label>
+          <input class="form-input" id="f-name" placeholder="Ör: Caramel Latte" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fiyat (₺) *</label>
+          <input class="form-input" id="f-price" type="number" placeholder="150" />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Açıklama</label>
+          <textarea class="form-textarea" id="f-desc" placeholder="Ürün açıklaması..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Kategori *</label>
+          <select class="form-select" id="f-category">
+            <option value="">Kategori seçin</option>
+            <option value="kahveler">☕ Kahveler</option>
+            <option value="soguk-icecekler">🧊 Soğuk İçecekler</option>
+            <option value="caylar">🍵 Çaylar & Sıcak İçecekler</option>
+            <option value="tatlilar">🧇 Tatlılar</option>
+            <option value="sandvicler">🥪 Sandviçler & Burgerler</option>
+            <option value="quesadillalar">🌮 Quesadillas</option>
+            <option value="wrap-gozleme">🌯 Wrap & Gözleme</option>
+            <option value="kahvalti">🍳 Kahvaltı & Yanlar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rozet (İsteğe bağlı)</label>
+          <input class="form-input" id="f-badge" placeholder="Ör: Popüler, Yeni..." />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Görsel URL</label>
+          <input class="form-input" id="f-image" placeholder="https://..." />
+        </div>
+        <div class="form-group full">
+          <label class="form-check-row">
+            <input type="checkbox" id="f-popular" />
+            <span style="font-size:0.88rem;color:var(--text-mid)">⭐ Popüler ürün olarak işaretle</span>
+          </label>
+        </div>
+        <div class="form-group full">
+          <button class="btn-submit" id="save-btn">✓ Ürünü Kaydet</button>
+        </div>
+      </div>
+      <input type="hidden" id="f-edit-id" value="" />
+    </div>
+
+    <!-- List Tab -->
+    <div id="tab-list" style="display:none">
+      <input class="admin-search" id="admin-search" placeholder="Ürün ara..." />
+      <div class="admin-filter-bar" id="admin-filter-bar"></div>
+      <div class="admin-product-list" id="admin-product-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────
+const CATEGORIES = [
+  { id: "kahveler", name: "Kahveler", icon: "☕" },
+  { id: "soguk-icecekler", name: "Soğuk İçecekler", icon: "🧊" },
+  { id: "caylar", name: "Çaylar & Sıcak İçecekler", icon: "🍵" },
+  { id: "tatlilar", name: "Tatlılar", icon: "🧇" },
+  { id: "sandvicler", name: "Sandviçler & Burgerler", icon: "🥪" },
+  { id: "quesadillalar", name: "Quesadillas", icon: "🌮" },
+  { id: "wrap-gozleme", name: "Wrap & Gözleme", icon: "🌯" },
+  { id: "kahvalti", name: "Kahvaltı & Yanlar", icon: "🍳" }
+];
+
+const INITIAL_PRODUCTS = [
+  { id:1, name:"Espresso", desc:"Yoğun ve aromatik, İtalyan usulü çift shot espresso.", price:130, cat:"kahveler", img:"https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop", popular:true, badge:"Klasik" },
+  { id:2, name:"Americano", desc:"Espresso ve sıcak su ile hazırlanan sade ve derin aromalı kahve.", price:160, cat:"kahveler", img:"https://images.unsplash.com/photo-1521302080334-4bebac2763a6?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:3, name:"Macchiato", desc:"Espresso üzerine az miktarda buharlanmış süt köpüğü.", price:160, cat:"kahveler", img:"https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:4, name:"Cappuccino", desc:"Eşit oranda espresso, buharlanmış süt ve yoğun köpük.", price:190, cat:"kahveler", img:"https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&h=300&fit=crop", popular:true, badge:"Popüler" },
+   { id:44, name:"Moccha", desc:"", price:210, cat:"kahveler", img:"https://images.unsplash.com/photo-1534778101976-62847782c213?w=400&h=300&fit=crop", popular:true, badge:"Popüler" },
+  { id:5, name:"Latte", desc:"Espresso ve bol buharlanmış sütün mükemmel uyumu.", price:210, cat:"kahveler", img:"https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&h=300&fit=crop", popular:true, badge:"Favori" },
+  { id:6, name:"Türk Kahvesi", desc:"Geleneksel yöntemle pişirilen, köpüklü Türk kahvesi.", price:130, cat:"kahveler", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786038064/turkish-coffee-14_dfsvlv.jpg", popular:true, badge:"Geleneksel" },
+  { id:7, name:"Damla Sakızlı Türk Kahvesi", desc:"Klasik Türk kahvesine damla sakızının eşsiz aroması.", price:140, cat:"kahveler", img:"https://images.unsplash.com/photo-1599744331096-8ef8f2ebbc6c?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:8, name:"Menengiç Kahvesi", desc:"Güneydoğu Anadolu'nun nadide lezzeti, doğal Menengiç kahvesi.", price:140, cat:"kahveler", img:"https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:9, name:"Ice Latte", desc:"Soğuk süt ve espresso ile hazırlanan serinletici iced latte.", price:210, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop", popular:true, badge:"Sezonsallık" },
+  { id:10, name:"Milkshake", desc:"Kremalı ve yoğun doku, seçtiğiniz lezzette milkshake.", price:210, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop", popular:true, badge:"Yeni" },
+  { id:14, name:"Ice Caramel Latte", desc:"Espresso ve bol buharlanmış sütün mükemmel uyumu.", price:230, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&h=300&fit=crop", popular:true, badge:"Favori" },
+  { id:45, name:"Ice Moccha", desc:"", price:230, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&h=300&fit=crop", popular:true, badge:"Favori" },
+  { id:11, name:"Limonata", desc:"Taze sıkılmış limon ile hazırlanan ev yapımı limonata.", price:110, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:12, name:" Meyveli Gazoz", desc:"Nostaljik Beyoğlu aroması ile ferahlatıcı limonlu gazoz.", price:110, cat:"soguk-icecekler", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786036691/250px-Two_bottles_of_Uluda_C4_9F_Gazoz_gl9lhb.jpg", popular:false, badge:"" },
+  { id:13, name:"  Gazoz", desc:"Taze reyhan aromalı, eşsiz Beyoğlu gazoz deneyimi.", price:110, cat:"soguk-icecekler", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786036691/250px-Two_bottles_of_Uluda_C4_9F_Gazoz_gl9lhb.jpg", popular:false, badge:"" },
+  { id:15, name:"Fuse Tea", desc:"Soğuk demlenmiş meyve aromalı hazır çay.", price:110, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:16, name:"Cola", desc:"Klasik ve serinletici kola.", price:110, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:17, name:"Meyve Suyu", desc:"Taze meyvelerden hazırlanan doğal meyve suyu.", price:110, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:18, name:"Soda", desc:"Ferahlatıcı sade maden suyu.", price:60, cat:"soguk-icecekler", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786036314/sade_atm1jd.png", popular:false, badge:"" },
+  { id:19, name:"Meyveli Soda", desc:"Meyve aromalı ferahlatıcı maden suyu.", price:80, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:20, name:"Su", desc:"Doğal kaynak suyu.", price:40, cat:"soguk-icecekler", img:"https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:21, name:"Çay", desc:"Demlik çaydan bardakta sunulan geleneksel Türk çayı.", price:40, cat:"caylar", img:"https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop", popular:true, badge:"Klasik" },
+  { id:23, name:"Waffle", desc:"Çıtır waffle, taze meyveler ve özel sos ile servis edilir.", price:420, cat:"tatlilar", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786037097/WhatsApp_Image_2026-08-06_at_20.19.38_gtmd3w.jpg", popular:true, badge:"Özel" },
+  { id:25, name:"Hamburger", desc:"El yapımı köfte, karamelize soğan ve özel burger sosuyla.", price:390, cat:"sandvicler", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop", popular:true, badge:"Popüler" },
+  { id:31, name:"Tost Tabağı ", desc:"Bol kaşar peyniri ile çıtır tost.", price:290, cat:"sandvicler", img:"https://images.unsplash.com/photo-1528736235302-52922df5c122?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:35, name:"Schnitzel", desc:"Çıtır ekmek kırıntısıyla kaplı, fırınlanmış tavuk schnitzel.", price:340, cat:"sandvicler", img:"https://res.cloudinary.com/dbh2x5t6n/image/upload/v1786040084/Freezer-Friendly-Chicken-Schnitzel-1_flzsmi.webp", popular:false, badge:"" },
+  { id:36, name:"Patso Sandviç", desc:"Çıtır ekmek içinde patso, sosları ve taze malzemelerle.", price:110, cat:"sandvicler", img:"https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:40, name:"Parmak Patates", desc:"Çıtır çıtır kızarmış parmak patates, yanında özel sos.", price:140, cat:"sandvicler", img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop", popular:true, badge:"Favori Yan" },
+  { id:41, name:"Elma Dilim Patates", desc:"Dilim elma patates, fırınlanmış çıtır doku.", price:160, cat:"sandvicler", img:"https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:42, name:"Soğan Kroket (8'li)", desc:"Çıtır çıtır 8 adet soğan kroket, yanında dip sos.", price:130, cat:"sandvicler", img:"https://images.unsplash.com/photo-1639024471283-03518883512d?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:43, name:"Kızartma Tabağı", desc:"Patates, soğan kroketi ve çeşitli kızartmalardan oluşan tabak.", price:210, cat:"sandvicler", img:"https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:50, name:"Tavuklu Quesadilla", desc:"Izgara tavuk, erimiş peynir ve renkli biberlerle tortilla içinde; yanında sos ile.", price:330, cat:"quesadillalar", img:"https://images.unsplash.com/photo-1618040996337-56904b7850b9?w=400&h=300&fit=crop", popular:true, badge:"Yeni" },
+  { id:51, name:"Köfte Sandviç", desc:"Izgara köfte, taze sebzeler ve özel sos ile çıtır ekmekte.", price:280, cat:"sandvicler", img:"https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:52, name:"Köfteli Wrap", desc:"Izgara köfte, yeşillik ve sos ile lavaşa sarılı wrap.", price:270, cat:"wrap-gozleme", img:"https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:53, name:"Tavuklu Wrap", desc:"Izgara tavuk, taze sebzeler ve sos ile lavaşa sarılı wrap.", price:260, cat:"wrap-gozleme", img:"https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop", popular:true, badge:"Favori" },
+  { id:54, name:"Beyaz Peynirli Gözleme", desc:"El açması ince yufka, beyaz peynir dolgusu ile sıcak servis.", price:200, cat:"wrap-gozleme", img:"https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:55, name:"Antep Usulü Katmer", desc:"Antep fıstığı, kaymak ve tereyağı ile hazırlanan geleneksel tatlı.", price:360, cat:"tatlilar", img:"https://images.unsplash.com/photo-1519676867240-f03562e64548?w=400&h=300&fit=crop", popular:true, badge:"Özel" },
+  { id:56, name:"Çikolatalı Sufle", desc:"İçi akışkan sıcak çikolatalı sufle, yanında dondurma ile.", price:250, cat:"tatlilar", img:"https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400&h=300&fit=crop", popular:true, badge:"Popüler" },
+  { id:57, name:"Bask Cheesecake", desc:"Yanık yüzeyi ve kremsi dokusuyla San Sebastian usulü cheesecake.", price:260, cat:"tatlilar", img:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&h=300&fit=crop", popular:true, badge:"Favori" },
+  { id:58, name:"Papatya Çayı", desc:"Rahatlatıcı, kurutulmuş papatya çiçeklerinden demlenmiş bitki çayı.", price:90, cat:"caylar", img:"https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:59, name:"Sıcak Çikolata", desc:"Yoğun çikolata ve sıcak sütle hazırlanan kremalı sıcak çikolata.", price:190, cat:"caylar", img:"https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&h=300&fit=crop", popular:true, badge:"Kışlık" },
+  { id:60, name:"Salep", desc:"Tarçın serpilmiş, kıvamlı ve sıcak geleneksel salep.", price:170, cat:"caylar", img:"https://images.unsplash.com/photo-1517256064527-09c73fc72cb8?w=400&h=300&fit=crop", popular:true, badge:"Kışlık" },
+  { id:61, name:"Kış Çayı", desc:"Tarçın, karanfil ve meyve aromalarıyla ısıtan kış çayı.", price:110, cat:"caylar", img:"https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=400&h=300&fit=crop", popular:false, badge:"Kışlık" },
+  { id:62, name:"Ihlamur", desc:"Doğal ıhlamur çiçeğinden hazırlanan sıcak, tatlı kokulu bitki çayı.", price:90, cat:"caylar", img:"https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400&h=300&fit=crop", popular:false, badge:"" },
+  { id:63, name:"Nane Limon", desc:"Taze nane ve limon ile hazırlanan ferahlatıcı sıcak içecek.", price:100, cat:"caylar", img:"https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop", popular:false, badge:"" },
+];
+
+// ─── STATE ───────────────────────────────────────────
+const MENU_VERSION = '2';
+let products = (function () {
+  let stored = null;
+  try { stored = JSON.parse(localStorage.getItem('dublinProducts')); } catch (e) {}
+  if (!stored) return INITIAL_PRODUCTS.slice();
+  if (localStorage.getItem('dublinMenuVersion') !== MENU_VERSION) {
+    const names = new Set(stored.map(p => p.name.trim().toLowerCase()));
+    stored = stored.filter(p => p.name.trim() !== 'Bitki Çayı');
+    stored.forEach(p => { if (p.name === 'Patso') { p.name = 'Patso Sandviç'; } });
+    INITIAL_PRODUCTS.forEach(p => {
+      if (!stored.some(q => q.name.trim().toLowerCase() === p.name.trim().toLowerCase())) stored.push(p);
+    });
+    const seen = new Set(); let mx = Math.max(...stored.map(p => p.id));
+    stored.forEach(p => { if (seen.has(p.id)) p.id = ++mx; seen.add(p.id); });
+    try { localStorage.setItem('dublinProducts', JSON.stringify(stored)); localStorage.setItem('dublinMenuVersion', MENU_VERSION); } catch (e) {}
+  }
+  return stored;
+})();
+let nextId = products.length ? Math.max(...products.map(p=>p.id)) + 1 : 1;
+let activeCategory = 'all';
+let searchQuery = '';
+let isDark = localStorage.getItem('dublinDark') === 'true';
+let adminCatFilter = 'all';
+let adminSearch = '';
+
+// ─── PERSIST ─────────────────────────────────────────
+function saveProducts() {
+  localStorage.setItem('dublinProducts', JSON.stringify(products));
+}
+
+// ─── DARK MODE ────────────────────────────────────────
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('dark-toggle').textContent = isDark ? '☀ Light' : '🌙 Dark';
+}
+applyTheme();
+document.getElementById('dark-toggle').addEventListener('click', () => {
+  isDark = !isDark;
+  localStorage.setItem('dublinDark', isDark);
+  applyTheme();
+});
+
+// ─── NAVBAR SCROLL ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ─── LOADING ─────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('hero-bg').style.transform = 'scale(1)';
+  }, 2200);
+});
+
+// ─── TOAST ───────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── CATEGORIES ──────────────────────────────────────
+function renderCategories() {
+  const c = document.getElementById('cat-container');
+  c.innerHTML = `<button class="cat-pill ${activeCategory==='all'?'active':''}" data-id="all">
+    <span class="emoji">🍽</span> Tümü
+  </button>`;
+  CATEGORIES.forEach(cat => {
+    c.innerHTML += `<button class="cat-pill ${activeCategory===cat.id?'active':''}" data-id="${cat.id}">
+      <span class="emoji">${cat.icon}</span> ${cat.name}
+    </button>`;
+  });
+  c.querySelectorAll('.cat-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.id;
+      searchQuery = '';
+      document.getElementById('search-input').value = '';
+      renderCategories();
+      renderMenu();
+    });
+  });
+}
+
+// ─── MENU ─────────────────────────────────────────────
+function getFiltered() {
+  let filtered = [...products];
+  if (activeCategory !== 'all') filtered = filtered.filter(p => p.cat === activeCategory);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q)
+    );
+  }
+  return filtered;
+}
+
+function fallbackImg(catId) {
+  const c = CATEGORIES.find(x => x.id === catId);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='#F5EDD6'/><text x='200' y='170' font-size='90' text-anchor='middle'>${c ? c.icon : '☕'}</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+function cardHTML(p) {
+  const imgFallback = fallbackImg(p.cat);
+  return `
+  <div class="product-card fade-in-up" data-id="${p.id}">
+    <div class="card-img-wrap">
+      <img class="card-img" src="${p.img || imgFallback}" alt="${p.name}" loading="lazy"
+        onerror="this.onerror=null;this.src=this.dataset.fb" data-fb="${imgFallback}" />
+      ${p.badge ? `<div class="card-badge">${p.badge}</div>` : ''}
+    </div>
+    <div class="card-body">
+      <div class="card-name">${p.name}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-footer">
+        <div class="card-price"><sup>₺</sup>${p.price}</div>
+        ${p.popular ? '<div style="font-size:0.75rem;color:var(--caramel);font-weight:600">⭐ Popüler</div>' : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderMenu() {
+  const grid = document.getElementById('menu-grid');
+  const filtered = getFiltered();
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="no-results">
+      <div class="icon">☕</div>
+      <p>Aradığınız ürün bulunamadı.</p>
+    </div>`;
+    return;
+  }
+
+  if (activeCategory === 'all' && !searchQuery) {
+    // Group by category
+    let html = '';
+    CATEGORIES.forEach(cat => {
+      const items = filtered.filter(p => p.cat === cat.id);
+      if (!items.length) return;
+      html += `<div class="cat-section-title" style="grid-column:1/-1">${cat.icon} ${cat.name}</div>`;
+      items.forEach(p => { html += cardHTML(p); });
+    });
+    grid.innerHTML = html;
+  } else {
+    grid.innerHTML = filtered.map(p => cardHTML(p)).join('');
+  }
+
+  // Animate
+  requestAnimationFrame(() => {
+    grid.querySelectorAll('.fade-in-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 40);
+    });
+  });
+}
+
+// ─── SEARCH ──────────────────────────────────────────
+document.getElementById('search-input').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  if (searchQuery) activeCategory = 'all';
+  renderCategories();
+  renderMenu();
+});
+
+// ─── PASSWORD GATE ───────────────────────────────────
+// SHA-256 hash of "dublin2026"
+const ADMIN_HASH = 'fc38413a1da0598b66575aefc718a5ef362c4d4af100e79f53a1d455c9f51623';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+const pwGate = document.getElementById('pw-gate');
+const adminOverlay = document.getElementById('admin-overlay');
+
+document.getElementById('admin-btn').addEventListener('click', () => {
+  // If already authenticated this session, open directly
+  if (sessionStorage.getItem('dublinAuth') === '1') {
+    adminOverlay.classList.add('open');
+    renderAdminList();
+    return;
+  }
+  pwGate.classList.add('open');
+  document.getElementById('pw-input').focus();
+});
+
+document.getElementById('pw-cancel').addEventListener('click', () => {
+  pwGate.classList.remove('open');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-error').textContent = '';
+});
+
+document.getElementById('pw-toggle').addEventListener('click', () => {
+  const inp = document.getElementById('pw-input');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  document.getElementById('pw-toggle').textContent = inp.type === 'password' ? '👁' : '🙈';
+});
+
+async function attemptLogin() {
+  const val = document.getElementById('pw-input').value;
+  const errEl = document.getElementById('pw-error');
+  if (!val) { errEl.textContent = 'Şifre boş bırakılamaz.'; return; }
+  const hash = await sha256(val);
+  if (val === 'dublin 2026') {
+    sessionStorage.setItem('dublinAuth', '1');
+    pwGate.classList.remove('open');
+    document.getElementById('pw-input').value = '';
+    errEl.textContent = '';
+    adminOverlay.classList.add('open');
+    renderAdminList();
+    showToast('✅ Hoş geldiniz, Dublin Yönetim!');
+  } else {
+    errEl.textContent = '❌ Hatalı şifre. Tekrar deneyin.';
+    const inp = document.getElementById('pw-input');
+    inp.classList.add('error');
+    inp.value = '';
+    setTimeout(() => inp.classList.remove('error'), 400);
+  }
+}
+
+document.getElementById('pw-submit').addEventListener('click', attemptLogin);
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') attemptLogin();
+});
+
+// ─── ADMIN PANEL ─────────────────────────────────────
+const overlay = adminOverlay;
+document.getElementById('admin-close').addEventListener('click', () => {
+  overlay.classList.remove('open');
+  resetForm();
+});
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) { overlay.classList.remove('open'); resetForm(); }
+});
+
+// Tabs
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-add').style.display = tab.dataset.tab === 'add' ? '' : 'none';
+    document.getElementById('tab-list').style.display = tab.dataset.tab === 'list' ? '' : 'none';
+    if (tab.dataset.tab === 'list') renderAdminList();
+  });
+});
+
+// Save
+document.getElementById('save-btn').addEventListener('click', () => {
+  const name = document.getElementById('f-name').value.trim();
+  const price = parseFloat(document.getElementById('f-price').value);
+  const cat = document.getElementById('f-category').value;
+  if (!name || !price || !cat) { showToast('⚠ Lütfen zorunlu alanları doldurun!'); return; }
+
+  const editId = document.getElementById('f-edit-id').value;
+  const product = {
+    id: editId ? parseInt(editId) : nextId++,
+    name,
+    price,
+    cat,
+    desc: document.getElementById('f-desc').value.trim(),
+    img: document.getElementById('f-image').value.trim(),
+    badge: document.getElementById('f-badge').value.trim(),
+    popular: document.getElementById('f-popular').checked
+  };
+
+  if (editId) {
+    const idx = products.findIndex(p => p.id === parseInt(editId));
+    if (idx !== -1) products[idx] = product;
+    showToast('✅ Ürün güncellendi!');
+  } else {
+    products.push(product);
+    showToast('✅ Ürün eklendi!');
+  }
+
+  saveProducts();
+  resetForm();
+  renderMenu();
+  renderAdminList();
+});
+
+function resetForm() {
+  ['f-name','f-price','f-desc','f-image','f-badge','f-edit-id'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f-category').value = '';
+  document.getElementById('f-popular').checked = false;
+  document.getElementById('save-btn').textContent = '✓ Ürünü Kaydet';
+}
+
+// Admin List
+function renderAdminList() {
+  const listEl = document.getElementById('admin-product-list');
+  const filterBar = document.getElementById('admin-filter-bar');
+  const q = document.getElementById('admin-search').value.toLowerCase();
+
+  // Filter buttons
+  filterBar.innerHTML = `<button class="admin-filter-btn ${adminCatFilter==='all'?'active':''}" data-cat="all">Tümü</button>`;
+  CATEGORIES.forEach(c => {
+    filterBar.innerHTML += `<button class="admin-filter-btn ${adminCatFilter===c.id?'active':''}" data-cat="${c.id}">${c.icon} ${c.name}</button>`;
+  });
+  filterBar.querySelectorAll('.admin-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      adminCatFilter = btn.dataset.cat;
+      renderAdminList();
+    });
+  });
+
+  let list = products;
+  if (adminCatFilter !== 'all') list = list.filter(p => p.cat === adminCatFilter);
+  if (q) list = list.filter(p => p.name.toLowerCase().includes(q));
+
+  if (!list.length) {
+    listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-light)">Ürün bulunamadı.</div>';
+    return;
+  }
+
+  const fallback = 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=100&h=100&fit=crop';
+  listEl.innerHTML = list.map(p => `
+    <div class="admin-product-item">
+      <img class="admin-item-img" src="${p.img||fallback}" alt="${p.name}" onerror="this.src='${fallback}'" />
+      <div class="admin-item-info">
+        <div class="admin-item-name">${p.name}</div>
+        <div class="admin-item-meta">${CATEGORIES.find(c=>c.id===p.cat)?.icon||''} ${CATEGORIES.find(c=>c.id===p.cat)?.name||p.cat}${p.badge?' · '+p.badge:''}</div>
+      </div>
+      <div class="admin-item-price">₺${p.price}</div>
+      <div class="admin-item-actions">
+        <button class="btn-edit" data-id="${p.id}">✏ Düzenle</button>
+        <button class="btn-delete" data-id="${p.id}">✕</button>
+      </div>
+    </div>
+  `).join('');
+
+  listEl.querySelectorAll('.btn-edit').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = products.find(x => x.id === parseInt(btn.dataset.id));
+      if (!p) return;
+      document.getElementById('f-name').value = p.name;
+      document.getElementById('f-price').value = p.price;
+      document.getElementById('f-desc').value = p.desc||'';
+      document.getElementById('f-image').value = p.img||'';
+      document.getElementById('f-badge').value = p.badge||'';
+      document.getElementById('f-category').value = p.cat;
+      document.getElementById('f-popular').checked = p.popular||false;
+      document.getElementById('f-edit-id').value = p.id;
+      document.getElementById('save-btn').textContent = '✓ Değişiklikleri Kaydet';
+      // Switch to add tab
+      document.querySelectorAll('.admin-tab')[0].click();
+    });
+  });
+
+  listEl.querySelectorAll('.btn-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+      products = products.filter(p => p.id !== parseInt(btn.dataset.id));
+      saveProducts();
+      renderMenu();
+      renderAdminList();
+      showToast('🗑 Ürün silindi.');
+    });
+  });
+}
+
+document.getElementById('admin-search').addEventListener('input', () => renderAdminList());
+
+// ─── INTERSECTION OBSERVER ───────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+
+function observeCards() {
+  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+}
+new MutationObserver(observeCards).observe(
+  document.getElementById('menu-grid'), { childList: true }
+);
+
+// ─── INIT ────────────────────────────────────────────
+renderCategories();
+renderMenu();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js?v=20260806', { scope: './' }).catch(console.error);
+  });
+}
+</script>
+</body>
+</html>
